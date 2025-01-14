@@ -1,9 +1,10 @@
-﻿using System;
+﻿using eTicket.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace eTicket.Models
+namespace eTickets.Models
 {
     public class Actor_Movie
     {
@@ -12,7 +13,5 @@ namespace eTicket.Models
 
         public int ActorId { get; set; }
         public Actor Actor { get; set; }
-
-
     }
 }
