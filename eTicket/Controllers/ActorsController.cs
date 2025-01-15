@@ -12,10 +12,12 @@ namespace eTicket.Controllers
         {
             _context = context;
         }
+
+        // synchronous method
         public IActionResult Index()
         {
             var data = _context.Actors.ToList();
-            return View();
+            return View(data);
         }
     }
 }
