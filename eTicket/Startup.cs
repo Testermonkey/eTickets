@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using eTickets.Data;
+using eTicket.Data.Services;
 
 namespace eTicket
 {
@@ -28,6 +29,11 @@ namespace eTicket
         {
             // DbContext configuration
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
+
+            //services configuration
+            services.AddScoped<IActorsService, ActorsService>();
+           
+
             services.AddControllersWithViews();
         }
 
