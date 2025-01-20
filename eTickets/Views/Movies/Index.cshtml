@@ -22,7 +22,7 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<img src="@item.ImageURL" width="100%" alt="@item.Name">
+						<img src="@item.ImageURL" style="width: 100%" alt="@item.Name">
 					</div>
 					<div class="col-md-6">
 						<div class="card-body">
@@ -52,7 +52,8 @@
 					<div class="col-md-12">
 						<div class="card-footer">
 							<p class="card-text">
-								<a class="btn btn-outline-primary float-right"><i class="bi bi-eye-fill"></i> Show Details</a>
+								<a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
+									<i class="bi bi-eye-fill"></i> Show Details</a>
 								<a class="btn btn-success text-white"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>
 							</p>
 						</div>
