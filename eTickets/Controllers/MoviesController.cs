@@ -4,7 +4,6 @@ using eTickets.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +20,28 @@ namespace eTickets.Controllers
         {
             _service = service;
         }
+
+        //GET: Movies/Index - Get all movies
         public async Task<IActionResult> Index()
         {
             var allMovies = await _service.GetAllAsync(n => n.Cinema);
             return View(allMovies);
+        }
+
+        //GET: 
+        public async Task<IActionResult> Filter(string searchString)
+        {
+            var allMovies = await _service.GetAllAsync(n => n.Cinema);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var filteredResult = allMovies.Where(n => n.Name.Contains(searchString) || n.Description.Contains(searchString)).ToList();
+                return View("Index", filteredResult);
+            }
+
+            return View("Index",allMovies);
+
+
         }
 
         //GET: Movies/Details/1
@@ -93,9 +110,9 @@ namespace eTickets.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int Id, NewMovieVM movie)
+        public async Task<IActionResult> Edit(int id, NewMovieVM movie)
         {
-            if (Id != movie.Id) return View("NotFound");
+            if (id != movie.Id) return View("NotFound");
 
             if (!ModelState.IsValid)
             {

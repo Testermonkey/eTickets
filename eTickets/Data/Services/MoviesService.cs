@@ -72,8 +72,7 @@ namespace eTickets.Data.Services
 
         public async Task UpdateMovieAsync(NewMovieVM data)
         {
-            var dbMovie = await _context.Movies
-                .FirstOrDefaultAsync(n => n.Id == data.Id);
+            var dbMovie = await _context.Movies.FirstOrDefaultAsync(n => n.Id == data.Id);                
 
             if (dbMovie != null)
             {
@@ -87,12 +86,10 @@ namespace eTickets.Data.Services
                 dbMovie.MovieCategory = data.MovieCategory;
                 dbMovie.ProducerId = data.ProducerId;
                 await _context.SaveChangesAsync();
-            };
+            }
 
             //Remove Movie Actors
-            var existingActorsDb = _context.Actors_Movies
-                .Where(n => n.MovieId == data.Id)
-                .ToList();
+            var existingActorsDb = _context.Actors_Movies.Where(n => n.MovieId == data.Id).ToList();
             _context.Actors_Movies.RemoveRange(existingActorsDb);
             await _context.SaveChangesAsync();
 
