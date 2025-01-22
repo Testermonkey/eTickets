@@ -17,6 +17,14 @@ namespace eTickets.Controllers
             _shoppingCart = shoppingCart;
         }
 
+        // Add this Index action to redirect to ShoppingCart per copilot
+        //due to https://localhost:44377/Orders/ShoppingCart not working while
+        // https://localhost:44377/Orders/ShoppingCart was working
+        public IActionResult Index()
+        {
+            return RedirectToAction(nameof(ShoppingCart));
+        }
+
         public IActionResult ShoppingCart()
         {
             var items = _shoppingCart.GetShoppingCartItems();
