@@ -87,19 +87,19 @@ namespace eTickets.Controllers
             var movieDetails = await _service.GetMovieByIdAsync(id);
             if (movieDetails == null) return View("NotFound");
 
-            var response = new NewMovieVM
+            var response = new NewMovieVM()
             {
                 Id = movieDetails.Id,
                 Name = movieDetails.Name,
                 Description = movieDetails.Description,
                 Price = movieDetails.Price,
-                ImageURL = movieDetails.ImageURL,
                 StartDate = movieDetails.StartDate,
                 EndDate = movieDetails.EndDate,
+                ImageURL = movieDetails.ImageURL,
                 MovieCategory = movieDetails.MovieCategory,
-                ActorIds = movieDetails.Actors_Movies.Select(n => n.ActorId).ToList(),
                 CinemaId = movieDetails.CinemaId,
-                ProducerId = movieDetails.ProducerId
+                ProducerId = movieDetails.ProducerId,
+                ActorIds = movieDetails.Actors_Movies.Select(n => n.ActorId).ToList(),
             };
 
             var movieDropdownsData = await _service.GetNewMovieDropdownsValues();

@@ -1,5 +1,4 @@
-﻿@using eTickets.Models
-@model IEnumerable<Cinema>
+﻿@model IEnumerable<Cinema>
 
 @{
 	ViewData["Title"] = "List of Cinemas";
@@ -45,9 +44,3 @@
 </div>
 
 @await Html.PartialAsync("_CreateItem", "Cinemas")
-
-@* <div style="position: fixed; right: 25px; bottom: 25px;" class="text-white">
-	<a asp-action="Create" class="btn btn-success">
-		<i class="bi bi-plus-circle"></i> Add New
-	</a>
-</div> *@
