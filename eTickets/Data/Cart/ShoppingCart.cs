@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace eTickets.Data.Cart
 {
@@ -44,7 +45,8 @@ namespace eTickets.Data.Cart
                     Amount = 1
                 };
                 _context.ShoppingCartItems.Add(shoppingCartItem);
-            } else
+            }
+            else
             {
                 shoppingCartItem.Amount++;
             }
@@ -59,7 +61,8 @@ namespace eTickets.Data.Cart
                 if (shoppingCartItem.Amount > 1)
                 {
                     shoppingCartItem.Amount--;
-                } else
+                }
+                else
                 {
                     _context.ShoppingCartItems.Remove(shoppingCartItem);
                 }
@@ -75,7 +78,14 @@ namespace eTickets.Data.Cart
             //The right-hand operand is _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId)
             return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).Include(n => n.Movie).ToList());
         }
-        public Int32 GetShoppingCartTotal() => (int)_context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).Select(n => n.Movie.Price * n.Amount).Sum();
+        public double GetShoppingCartTotal() => _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).Select(n => n.Movie.Price * n.Amount).Sum();
+
+        public async Task ClearShoppingCartAsync()
+        {
+            var items = await _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).ToListAsync();
+            _context.ShoppingCartItems.RemoveRange(items);
+            await _context.SaveChangesAsync();
+        }
 
 
     }
