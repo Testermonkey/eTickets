@@ -1,0 +1,24 @@
+﻿PayPal
+Default Application
+Client ID 1		AWPGcxAX9pq37ho7WfjFrfmCxe2AuUZaQrOktmlEfxeSkNP-eR3F1n8fOc2QSSxWRux_bwOYgj9aQkV4
+Secret 1		EJI1mON0hxaovRcJm9nK4obtYWZgEj550vc40pZ8V15RvqzXRHvMZfw3ntn48m_usa9cj5oLkLylxZTI
+
+eTickets-App
+Client ID 2		AUjAyJX41vt2fnLUGa_HsMMIGze7GRWIWO8Vn4FBhhhtpLKkawM7VVFSy47OGOfoDGW-nm89KYGnWZFs
+Secret 2		EJheFR7edouG9TwK47vACqpz29zEhCLepJWYnmeubA9ACsah9jlOy60d48oOnPmL4QIuT0KqC_ZT0p5G
+
+https://sandbox.paypal.com
+sb-4747qoj37174551@business.example.com
+Iei3fC=S
+
+NVP/SOAP Sandbox API credentials
+UserName		sb-4747qoj37174551_api1.business.example.com
+Passoword		JX4LJFKTPDDXKT2Q
+Signature		AfkzJfko3Y5rESVd9synxdvldo4lA0-hKeWdF7nbNyt2dYn0k8.6a5eT
+
+Name			John Doe
+Phone			4088653082
+Country			US
+Account type	Business
+Account ID		9S7HEZNJXKH94
+Status			Verified
