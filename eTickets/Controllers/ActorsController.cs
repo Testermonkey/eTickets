@@ -1,6 +1,7 @@
 ﻿using eTickets.Data;
 using eTickets.Data.Services;
 using eTickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace eTickets.Controllers
 {
+    [Authorize]
     public class ActorsController : Controller
     {
         private readonly IActorsService _service;
@@ -18,7 +20,7 @@ namespace eTickets.Controllers
             _service = service; 
         }
 
- 
+        [AllowAnonymous]
         //GetAll: actors/index
         public async Task<IActionResult> Index()
         {
@@ -27,12 +29,14 @@ namespace eTickets.Controllers
         }
 
         //Get: actors/create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         //Post: actors/create
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([Bind("FullName,ProfilePictureURL,Bio")]Actor actor)
         {
@@ -44,6 +48,7 @@ namespace eTickets.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         //Get: Actors/Details/Id
         public async Task<IActionResult> Details(int id)
         {
@@ -53,6 +58,7 @@ namespace eTickets.Controllers
         }
 
         //Get: actors/Edit/Id
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var actorDetails = await _service.GetByIdAsync(id);
@@ -60,6 +66,7 @@ namespace eTickets.Controllers
             return View(actorDetails);
         }
         //Post: actors/Edit
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,ProfilePictureURL,Bio")] Actor actor)
         {
@@ -72,13 +79,14 @@ namespace eTickets.Controllers
         }
 
         //Get: actors/Delete/id
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var actorDetails = await _service.GetByIdAsync(id);
             if (actorDetails == null) return View("NotFound");
             return View(actorDetails);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

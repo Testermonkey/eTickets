@@ -1,6 +1,7 @@
 ﻿using eTickets.Data;
 using eTickets.Data.Services;
 using eTickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace eTickets.Controllers
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private readonly IMoviesService _service;
@@ -22,6 +24,7 @@ namespace eTickets.Controllers
         }
 
         //GET: Movies/Index - Get all movies
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var allMovies = await _service.GetAllAsync(n => n.Cinema);
@@ -29,6 +32,7 @@ namespace eTickets.Controllers
         }
 
         //GET: 
+        [AllowAnonymous]
         public async Task<IActionResult> Filter(string searchString)
         {
             var allMovies = await _service.GetAllAsync(n => n.Cinema);
@@ -45,6 +49,7 @@ namespace eTickets.Controllers
         }
 
         //GET: Movies/Details/1
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var movieDetail = await _service.GetMovieByIdAsync(id);
@@ -52,6 +57,7 @@ namespace eTickets.Controllers
         }
 
         //GET: Movies/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             var movieDropdownsData = await _service.GetNewMovieDropdownsValues();
@@ -62,6 +68,7 @@ namespace eTickets.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(NewMovieVM movie)
         {
@@ -81,6 +88,7 @@ namespace eTickets.Controllers
         }
 
         //GET: Movies/Edit/1
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
 
@@ -109,6 +117,7 @@ namespace eTickets.Controllers
             return View(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, NewMovieVM movie)
         {

@@ -1,6 +1,7 @@
 ﻿using eTickets.Data;
 using eTickets.Data.Services;
 using eTickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace eTickets.Controllers
 {
+    [Authorize]
     public class ProducersController : Controller
     {
         private readonly IProducersService _service;
@@ -19,6 +21,7 @@ namespace eTickets.Controllers
             _service = service;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var allProducers = await _service.GetAllAsync();
@@ -26,6 +29,7 @@ namespace eTickets.Controllers
         }
 
         //GET: producers/details/1
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var producerDetails = await _service.GetByIdAsync(id);
@@ -34,11 +38,13 @@ namespace eTickets.Controllers
         }
 
         //Get: Producers/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([Bind("ProfilePictureURL,FullName,Bio")] Producer producer)
         {
@@ -49,6 +55,7 @@ namespace eTickets.Controllers
         }
 
         //Get: Producers/Edit/Id
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var producerDetails = await _service.GetByIdAsync(id);
@@ -56,6 +63,7 @@ namespace eTickets.Controllers
             return View(producerDetails);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ProfilePictureURL,FullName,Bio")] Producer producer)
         {
@@ -70,6 +78,7 @@ namespace eTickets.Controllers
         }
 
         //Get: Producer/Delete/id
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var producerDetails = await _service.GetByIdAsync(id);
@@ -77,6 +86,7 @@ namespace eTickets.Controllers
             return View(producerDetails);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
