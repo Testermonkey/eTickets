@@ -4,6 +4,7 @@ using eTickets.Data.ViewModels;
 using eTickets.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace eTickets.Controllers
@@ -14,14 +15,18 @@ namespace eTickets.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly AppDbContext _context;
 
-
         public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+        }
 
+        public async Task<IActionResult> Users()
+        {
+            var users = await _context.Users.ToListAsync();
 
+            return View(users);
         }
 
         public IActionResult Login() => View(new LoginVM());
@@ -62,7 +67,7 @@ namespace eTickets.Controllers
                 TempData["Error"] = "This email is already in use!";
                 return View(registerVM);
             }
-            
+
             var newUser = new ApplicationUser()
             {
                 FullName = registerVM.FullName,
@@ -82,7 +87,11 @@ namespace eTickets.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Movies");
+        }
 
+        public IActionResult AccessDenied(string ReturnUrl)
+        {
+            return View();
         }
     }
 }
