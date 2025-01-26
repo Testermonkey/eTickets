@@ -9,11 +9,15 @@ namespace eTickets.Data.Services
     public class OrdersService : IOrdersService
     {
         private readonly AppDbContext _context;
+
+        // Constructor to inject the AppDbContext dependency
         public OrdersService(AppDbContext context)
         {
             _context = context;
         }
 
+        // Retrieves all orders for a specific user based on their role.
+        // If the user is not an admin, only their own orders are returned.
         public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole)
         {
             var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Movie).Include(n => n.User).ToListAsync();
@@ -26,6 +30,7 @@ namespace eTickets.Data.Services
             return orders;
         }
 
+        // Stores a new order in the database, including its items
         public async Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string userEmailAddress)
         {
             var order = new Order()

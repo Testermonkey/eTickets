@@ -12,6 +12,7 @@ namespace eTickets.Data
 {
     public class AppDbInitializer
     {
+        // Seeds the database with initial data if it is empty.
         public static void Seed(IApplicationBuilder applicationBuilder)
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
@@ -20,7 +21,7 @@ namespace eTickets.Data
 
                 context.Database.EnsureCreated();
 
-                //Cinema
+                // Seed Cinemas
                 if (!context.Cinemas.Any())
                 {
                     context.Cinemas.AddRange(new List<Cinema>()
@@ -58,7 +59,7 @@ namespace eTickets.Data
                     });
                     context.SaveChanges();
                 }
-                //Actors
+                // Seed Actors
                 if (!context.Actors.Any())
                 {
                     context.Actors.AddRange(new List<Actor>()
@@ -97,7 +98,7 @@ namespace eTickets.Data
                     });
                     context.SaveChanges();
                 }
-                //Producers
+                // Seed Producers
                 if (!context.Producers.Any())
                 {
                     context.Producers.AddRange(new List<Producer>()
@@ -136,7 +137,7 @@ namespace eTickets.Data
                     });
                     context.SaveChanges();
                 }
-                //Movies
+                // Seed Movies
                 if (!context.Movies.Any())
                 {
                     context.Movies.AddRange(new List<Movie>()
@@ -216,7 +217,7 @@ namespace eTickets.Data
                     });
                     context.SaveChanges();
                 }
-                //Actors & Movies
+                // Seed Actor_Movie relationships
                 if (!context.Actors_Movies.Any())
                 {
                     context.Actors_Movies.AddRange(new List<Actor_Movie>()
@@ -321,6 +322,7 @@ namespace eTickets.Data
 
         }
 
+        // Seeds the database with initial roles and users if they do not exist.
         public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())

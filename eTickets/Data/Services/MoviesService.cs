@@ -11,12 +11,13 @@ namespace eTickets.Data.Services
     {
         private readonly AppDbContext _context;
 
-
+        // Constructor to inject the AppDbContext dependency
         public MoviesService(AppDbContext context) : base(context)
         {
             _context = context;
         }
 
+        // Add a new movie to the database
         public async Task AddNewMovieAsync(NewMovieVM data)
         {
             var newMovie = new Movie()
@@ -31,6 +32,7 @@ namespace eTickets.Data.Services
                 MovieCategory = data.MovieCategory,
                 ProducerId = data.ProducerId,
             };
+            // Save Changes to Database
             await _context.Movies.AddAsync(newMovie);
             await _context.SaveChangesAsync();
 
@@ -47,6 +49,7 @@ namespace eTickets.Data.Services
             await _context.SaveChangesAsync();
         }
 
+        // Get movie details by id
         public async Task<Movie> GetMovieByIdAsync(int id)
         {
             var movieDetails = await _context.Movies
@@ -55,9 +58,9 @@ namespace eTickets.Data.Services
                 .Include(am => am.Actors_Movies).ThenInclude(a => a.Actor)
                 .FirstOrDefaultAsync(n => n.Id == id);
             return movieDetails;
-
         }
 
+        // Get dropdown values for creating a new movie
         public async Task<NewMovieDropdownsVM> GetNewMovieDropdownsValues()
         {
             var response = new NewMovieDropdownsVM()
@@ -70,6 +73,7 @@ namespace eTickets.Data.Services
             return response;
         }
 
+        // Update an existing movie in the database
         public async Task UpdateMovieAsync(NewMovieVM data)
         {
             var dbMovie = await _context.Movies.FirstOrDefaultAsync(n => n.Id == data.Id);                

@@ -16,11 +16,13 @@ namespace eTickets.Data.Cart
         public string ShoppingCartId { get; set; }
         public List<ShoppingCartItem> ShoppingCartItems { get; set; }
 
+        // Constructor to inject the AppDbContext dependency
         public ShoppingCart(AppDbContext context)
         {
             _context = context;
         }
 
+        // Get the shopping cart for the current session
         public static ShoppingCart GetShoppingCart(IServiceProvider services)
         {
             ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
@@ -29,9 +31,9 @@ namespace eTickets.Data.Cart
             string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
             session.SetString("CartId", cartId);
             return new ShoppingCart(context) { ShoppingCartId = cartId };
-
         }
 
+        // Add an item to the shopping cart
         public void AddItemToCart(Movie movie)
         {
             var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.Movie.Id == movie.Id && n.ShoppingCartId == ShoppingCartId);
@@ -53,6 +55,7 @@ namespace eTickets.Data.Cart
             _context.SaveChanges();
         }
 
+        // Remove an item from the shopping cart
         public void RemoveItemFromCart(Movie movie)
         {
             var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.Movie.Id == movie.Id && n.ShoppingCartId == ShoppingCartId);
@@ -70,6 +73,7 @@ namespace eTickets.Data.Cart
             _context.SaveChanges();
         }
 
+        // Get all items in the shopping cart
         public List<ShoppingCartItem> GetShoppingCartItems()
         {
             //The Null Coalescing Operator (??) returns the left-hand operand if it is not null
@@ -78,15 +82,16 @@ namespace eTickets.Data.Cart
             //The right-hand operand is _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId)
             return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).Include(n => n.Movie).ToList());
         }
+
+        // Get the total price of items in the shopping cart
         public double GetShoppingCartTotal() => _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).Select(n => n.Movie.Price * n.Amount).Sum();
 
+        // Clear all items from the shopping cart
         public async Task ClearShoppingCartAsync()
         {
             var items = await _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).ToListAsync();
             _context.ShoppingCartItems.RemoveRange(items);
             await _context.SaveChangesAsync();
         }
-
-
     }
 }
