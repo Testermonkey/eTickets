@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eTickets", "eTickets\eTickets.csproj", "{39CDF95E-A4F2-4C27-85F2-941030115BF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eTickets.Tests", "eTickets.Tests\eTickets.Tests.csproj", "{54919DF9-BCF5-470D-8E1C-1475E1515135}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{39CDF95E-A4F2-4C27-85F2-941030115BF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39CDF95E-A4F2-4C27-85F2-941030115BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39CDF95E-A4F2-4C27-85F2-941030115BF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54919DF9-BCF5-470D-8E1C-1475E1515135}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54919DF9-BCF5-470D-8E1C-1475E1515135}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54919DF9-BCF5-470D-8E1C-1475E1515135}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54919DF9-BCF5-470D-8E1C-1475E1515135}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
