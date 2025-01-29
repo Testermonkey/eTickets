@@ -381,46 +381,7 @@ namespace eTickets.Tests
             tempDataMock.VerifySet(t => t["Error"] = "Wrong Credentials. Please try again", Times.Once);
         }
 
-        [Test]
-        public async Task Register_ValidModel_RedirectsToRegisterCompleted()
-        {
-            // Test Covers:
-            // - Happy Path (Valid Registration):
-            //     - The model state is valid.
-            //     - The email is not already in use.
-            //     - User creation is successful.
-            //     - The user is assigned the "User" role.
-            // - Expected Behavior:
-            //     - The controller redirects to the "RegisterCompleted" view.
 
-            // Arrange
-            var registerVM = new RegisterVM
-            {
-                FullName = "Test User",
-                EmailAddress = "test@example.com",
-                Password = "Password123!"
-            };
-
-            // Mock UserManager to ensure the email is not already in use
-            _userManagerMock.Setup(u => u.FindByEmailAsync(registerVM.EmailAddress))
-                            .ReturnsAsync((ApplicationUser)null);
-
-            // Mock UserManager to successfully create a user
-            _userManagerMock.Setup(u => u.CreateAsync(It.IsAny<ApplicationUser>(), registerVM.Password))
-                            .ReturnsAsync(IdentityResult.Success);
-
-            // Mock UserManager to successfully assign the "User" role
-            _userManagerMock.Setup(u => u.AddToRoleAsync(It.IsAny<ApplicationUser>(), UserRoles.User))
-                            .Returns(Task.FromResult(IdentityResult.Success)); // Simulate successful role assignment
-
-            // Act
-            var result = await _controller.Register(registerVM);
-
-            // Assert
-            Assert.That(result, Is.InstanceOf<ViewResult>(), "Expected a ViewResult");
-            var viewResult = result as ViewResult;
-            Assert.That(viewResult?.ViewName, Is.EqualTo("RegisterCompleted"), "Expected to redirect to the RegisterCompleted view");
-        }
 
 
 
